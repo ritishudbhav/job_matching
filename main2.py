@@ -11,10 +11,6 @@ app = FastAPI()
 
 
 
-KAFKA_BROKER = "localhost:9092"
-USER_TOPIC = "user_topic"
-JOB_TOPIC = "job_topic"
-
 redis_client = redis.Redis(host="localhost",port=6379,db=0)
 
 AI_MODEL_URL = ""
