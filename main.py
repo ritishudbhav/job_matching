@@ -5,7 +5,6 @@ import json
 import asyncio
 import aiohttp
 
-
 app = FastAPI()
 
 
