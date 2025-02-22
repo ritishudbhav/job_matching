@@ -1,0 +1,35 @@
+
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+      - "2181:2181"  # Zookeeper default port
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9093:9093"  # Kafka default port for internal communication
+    environment:
+      KAFKA_ADVERTISED_LISTENER: INSIDE://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_INTERFACE: INSIDE
+      KAFKA_LISTENER_PORT: 9093
+      KAFKA_LISTENER_NAME: INSIDE
+      KAFKA_LISTENER_INTERNAL: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_MODE: broker
+      KAFKA_LISTENER_NAME_INTERNAL: INSIDE
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
